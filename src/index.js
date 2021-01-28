@@ -62,3 +62,71 @@ function readQueueLocalStorage() {
 
 readWathedLocalStorage();
 readQueueLocalStorage();
+
+// d407875648143dbc537f3d16fab2b882  -  my key
+
+// Приклад API-запиту
+// https://api.themoviedb.org/3/movie/550?api_key=d407875648143dbc537f3d16fab2b882
+
+// Токен доступу для читання API (v4 auth)
+// eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJkNDA3ODc1NjQ4MTQzZGJjNTM3ZjNkMTZmYWIyYjg4MiIsInN1YiI6IjYwMTAwMTA3MjJlNDgwMDAzZTA4NzZkMCIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.TOUKxZRdZjm93mdeBLVGFrrgN-rC0FIjiJwE6aYk4-k
+
+console.log("Отсюда начинаентся API");
+
+const MY_KEY = `?api_key=d407875648143dbc537f3d16fab2b882`;
+const BASIC_URL = `https://api.themoviedb.org/3`;
+const SEARCH_ID = `/movie/550`;
+const SEARCH_MOVIE = `/search/movie/`;
+const QUERY = `&query=`;
+const GET_POPULAR = `/movie/popular`;
+const GET_TRENDING = `/trending/{media_type}/{time_window}`;
+const GET_LATEST = `/movie/latest`;
+
+const GET_LANGUAGES = {
+  RU: "ru",
+  UK: "uk",
+  EN: "en",
+};
+
+const LANGUAGES = `&language=${GET_LANGUAGES.RU}`;
+
+fetch(`${BASIC_URL}${SEARCH_MOVIE}${MY_KEY}${LANGUAGES}${QUERY}джек восьмёркин`)
+  .then((response) => response.json())
+  .then((e) => console.log(e))
+  .catch((error) => console.log(error));
+
+// ================= тут попытка сделать строку поиска =======
+
+const inputRef = document.querySelector(".input-js");
+
+function inputRefFuncion() {
+  const searchQuery = inputRef.value;
+
+  console.log(searchQuery);
+}
+
+inputRef.addEventListener("input", fetchByName); // тут что-то не работате
+
+function fetchByName(name) {
+  return fetch(
+    `${BASIC_URL}${SEARCH_MOVIE}${MY_KEY}${LANGUAGES}${QUERY}${name}`
+  ).then((response) => {
+    return response.json();
+  });
+}
+
+fetchByName("джек");
+
+// function searchByName(name) {
+//   // name.preventDefault();
+
+//   const searchQuery = inputRef.value;
+
+//   console.log(searchQuery);
+
+//   fetchByName(searchQuery)
+//     .then(console.log)
+//     .catch((name) => console.log(name));
+// }
+
+// searchByName("джек ричер");

@@ -17,6 +17,14 @@ function addedToQueueLibrary(film) {
   localStorage.setItem("queuefilm", JSON.stringify(queueFilmLibrary));
 }
 
+function updateFilms(key, film) {
+  const films = JSON.parse(localStorage.getItem(key)) || [];
+  localStorage.setItem(key, JSON.stringify([...films, film]));
+}
+
+const key = 'Вова и Артем';
+
+
 const q = {
   id: 1,
   theme: "Том и Джери",
@@ -38,15 +46,21 @@ const e = {
   options: [1, 3],
 };
 
-addedToWathedLibrary(q);
-addedToWathedLibrary(w);
-addedToWathedLibrary(w);
-addedToWathedLibrary(w);
-addedToWathedLibrary(w);
+updateFilms(key, q);
+updateFilms(key, w);
+updateFilms(key, w);
+updateFilms(key, w);
+updateFilms(key, w);
 
-addedToQueueLibrary(e);
-addedToQueueLibrary(q);
-addedToQueueLibrary(w);
+// addedToWathedLibrary(q);
+// addedToWathedLibrary(w);
+// addedToWathedLibrary(w);
+// addedToWathedLibrary(w);
+// addedToWathedLibrary(w);
+
+// addedToQueueLibrary(e);
+// addedToQueueLibrary(q);
+// addedToQueueLibrary(w);
 
 function readWathedLocalStorage() {
   const savedSettings = localStorage.getItem("wathedfilm");
@@ -90,10 +104,10 @@ const GET_LANGUAGES = {
 
 const LANGUAGES = `&language=${GET_LANGUAGES.RU}`;
 
-fetch(`${BASIC_URL}${SEARCH_MOVIE}${MY_KEY}${LANGUAGES}${QUERY}джек восьмёркин`)
-  .then((response) => response.json())
-  .then((e) => console.log(e))
-  .catch((error) => console.log(error));
+// fetch(`${BASIC_URL}${SEARCH_MOVIE}${MY_KEY}${LANGUAGES}${QUERY}джек восьмёркин`)
+//   .then((response) => response.json())
+//   .then((e) => console.log(e))
+//   .catch((error) => console.log(error));
 
 // ================= тут попытка сделать строку поиска =======
 
@@ -105,28 +119,24 @@ function inputRefFuncion() {
   console.log(searchQuery);
 }
 
-inputRef.addEventListener("input", fetchByName); // тут что-то не работате
+inputRef.addEventListener("input", _.debounce(searchByName, 500) ); // тут что-то не работате
 
 function fetchByName(name) {
-  return fetch(
+  fetch(
     `${BASIC_URL}${SEARCH_MOVIE}${MY_KEY}${LANGUAGES}${QUERY}${name}`
   ).then((response) => {
-    return response.json();
+    return response.json().then(e=> console.log(e)).catch(error => console.log(error));
   });
 }
 
-fetchByName("джек");
+fetchByName("вова")
 
-// function searchByName(name) {
-//   // name.preventDefault();
+ function searchByName() {
+  // name.preventDefault();
 
-//   const searchQuery = inputRef.value;
+  const searchQuery = inputRef.value;
 
-//   console.log(searchQuery);
+  console.log(searchQuery);
 
-//   fetchByName(searchQuery)
-//     .then(console.log)
-//     .catch((name) => console.log(name));
-// }
-
-// searchByName("джек ричер");
+  fetchByName(searchQuery);
+}

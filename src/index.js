@@ -17,13 +17,16 @@ function addedToQueueLibrary(film) {
   localStorage.setItem("queuefilm", JSON.stringify(queueFilmLibrary));
 }
 
+// ========= рефактор кусок Вовчика =============
+
 function updateFilms(key, film) {
   const films = JSON.parse(localStorage.getItem(key)) || [];
   localStorage.setItem(key, JSON.stringify([...films, film]));
 }
 
-const key = 'Вова и Артем';
+// ========= рефактор кусок Вовчика =============
 
+const key = "Вова и Артем";
 
 const q = {
   id: 1,
@@ -119,19 +122,22 @@ function inputRefFuncion() {
   console.log(searchQuery);
 }
 
-inputRef.addEventListener("input", _.debounce(searchByName, 500) ); // тут что-то не работате
+inputRef.addEventListener("input", _.debounce(searchByName, 500)); // тут что-то не работате
 
 function fetchByName(name) {
-  fetch(
-    `${BASIC_URL}${SEARCH_MOVIE}${MY_KEY}${LANGUAGES}${QUERY}${name}`
-  ).then((response) => {
-    return response.json().then(e=> console.log(e)).catch(error => console.log(error));
-  });
+  fetch(`${BASIC_URL}${SEARCH_MOVIE}${MY_KEY}${LANGUAGES}${QUERY}${name}`).then(
+    (response) => {
+      return response
+        .json()
+        .then((e) => console.log(e))
+        .catch((error) => console.log(error));
+    }
+  );
 }
 
-fetchByName("вова")
+fetchByName("вова");
 
- function searchByName() {
+function searchByName() {
   // name.preventDefault();
 
   const searchQuery = inputRef.value;
